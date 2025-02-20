@@ -25,9 +25,19 @@ body {
 }
 
 h1 {
-  margin: 5rem;
+  margin: 5rem 0 3rem 0;
   font-size: 4em;
   line-height: 1.1;
+}
+
+.button_page {
+  background-color: #777;
+  width: 8rem;
+  color:antiquewhite;
+}
+
+.first {
+  margin-right: .3rem;
 }
 
 .search_movie_input {
@@ -48,19 +58,21 @@ h1 {
   list-style-type: none;
   font-size: 1.3rem;
   font-weight: 600;
-  width: 100%;
   padding: 0;
   margin: 0;
 }
 
 li {
   border: 1px solid hsla(200, 50%, 20%, .6);
-  width: 33.3%;
+  min-width: 23vw;
   padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 em {
-  font-size: 1rem;
+  font-size: .8rem;
   color: rgb(164, 162, 160);
 }
 
@@ -72,4 +84,36 @@ img {
   width: 250px;
   height: 350px;
   object-fit: cover;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #333;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  color: rgb(164, 162, 160);
+  margin-top: 1.5em;
+}
+button:hover {
+  opacity: .75;
+  color: antiquewhite;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  button {
+    background-color: #f9f9f9;
+  }
 }

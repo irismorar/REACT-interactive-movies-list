@@ -17,17 +17,32 @@ function SearchInput({ onSearch }) {
   );
 }
 
-function MoviesList({ movies }) {
+function MoviesList({ movies, setMoviesState, isWishlist }) {
   return (
     <div className="movies_list_container">
       {movies.length > 0 ? (
         <ul className="movies_list">
-          {movies.map((movie) => {
+          {movies.map((movie, index) => {
             return (
               <li key={movie.id}>
                 <img src={movie.src} />
                 <br />
-                <span>{movie.title}</span> . <em>{movie.year}</em>
+                <span>{movie.title}</span>
+                <em>{movie.year}</em>
+                {!isWishlist && (
+                  <button
+                    onClick={() => {
+                      const newState = [...movies];
+                      newState[index].isInWishlist =
+                        !newState[index].isInWishlist;
+                      setMoviesState(newState);
+                    }}
+                  >
+                    {movie.isInWishlist
+                      ? "Remove from wishlist"
+                      : "Add to wishlist"}
+                  </button>
+                )}
               </li>
             );
           })}
@@ -40,17 +55,45 @@ function MoviesList({ movies }) {
 }
 
 export default function MovieTrackingWebsite() {
+  const [page, setPage] = useState("all movies"); // "wishlist"
   const [searchMovie, setSearchMovie] = useState("");
+  const [moviesState, setMoviesState] = useState(moviesDatabase);
 
-  const filteredMovies = moviesDatabase.filter((movie) => {
-    movie.title.toLowerCase().includes(searchMovie.toLowerCase());
-  });
+  const filteredMovies = moviesState.filter((movie) =>
+    movie.title.toLowerCase().includes(searchMovie.toLowerCase())
+  );
+
+  const movieWishlist = moviesState.filter((movie) => movie.isInWishlist);
 
   return (
     <>
       <TitleWebsite />
-      <SearchInput onSearch={setSearchMovie} />
-      <MoviesList movies={filteredMovies} />
+      <button
+        className="button_page first"
+        onClick={() => setPage("all movies")}
+      >
+        All movies
+      </button>
+      <button className="button_page" onClick={() => setPage("wishlist")}>
+        Wishlist
+      </button>
+      <br />
+      <br />
+      {page === "all movies" && (
+        <>
+          <SearchInput onSearch={setSearchMovie} />
+          <MoviesList
+            movies={filteredMovies}
+            setMoviesState={setMoviesState}
+            isWishlist={false}
+          />
+        </>
+      )}
+      {page === "wishlist" && (
+        <div className="movies_list_container">
+          <MoviesList movies={movieWishlist} isWishlist={true} />
+        </div>
+      )}
     </>
   );
 }
